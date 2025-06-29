@@ -1,0 +1,35 @@
+matrix:
+  include:
+    - BOARD: nice_nano_v2
+      SHIELD: berylline_left
+    - BOARD: nice_nano_v2
+      SHIELD: berylline_right
+    - BOARD: seeeduino_xiao
+      SHIELD: hummingbird
+    - BOARD: seeeduino_xiao_ble
+      SHIELD: hummingbird
+    - BOARD: nice_nano_v2
+      SHIELD: flea_left
+    - BOARD: nice_nano_v2
+      SHIELD: flea_right
+    - BOARD: seeeduino_xiao_ble
+      SHIELD: moon
+    - BOARD: seeeduino_xiao_rp2040
+      SHIELD: moon
+
+steps:
+  - name: build_and_upload
+    image: registry.gwg313.xyz/library/zmk-prebuilt:latest
+    user: root
+    environment:
+      MINIO_KEY:
+        from_secret: MINIO_ACCESS_KEY
+      MINIO_SECRET:
+        from_secret: MINIO_SECRET_KEY
+    commands:
+      - id
+      - export Zephyr_DIR=/zmk/zephyr
+      - . /zmk/zmk/app
+      - west build -b ${BOARD} /zmk/zmk/app -- -DSHIELD=${SHIELD} -DZMK_CONFIG="$(pwd)/config"
+      - mc alias set minio https://s3.gwg313.xyz $MINIO_KEY $MINIO_SECRET
+      - mc cp -r build/zephyr/zmk.uf2 minio/zmk-builds/firmware/${CI_PIPELINE_NUMBER}/${BOARD}/${BOARD}_${SHIELD}.uf2
