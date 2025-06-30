@@ -27,9 +27,8 @@ steps:
       MINIO_SECRET:
         from_secret: MINIO_SECRET_KEY
     commands:
-      - id
       - export Zephyr_DIR=/zmk/zephyr
       - . /zmk/zmk/app
       - west build -b ${BOARD} /zmk/zmk/app -- -DSHIELD=${SHIELD} -DZMK_CONFIG="$(pwd)/config"
       - mc alias set minio https://s3.gwg313.xyz $MINIO_KEY $MINIO_SECRET
-      - mc cp -r build/zephyr/zmk.uf2 minio/zmk-builds/firmware/${CI_PIPELINE_NUMBER}/${BOARD}/${BOARD}_${SHIELD}.uf2
+      - mc cp build/zephyr/zmk.uf2 minio/zmk-builds/firmware/build_${CI_PIPELINE_NUMBER}/${BOARD}_${SHIELD}.uf2
