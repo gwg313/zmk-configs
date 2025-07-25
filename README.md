@@ -22,8 +22,8 @@ You can find my daily keymap [here](config/base_lower.keymap)
 
 ## Automated Build and Flash
 
-The firmware is automatically built using GitHub Actions. Once built, it is
-uploaded as an artifact. No manual building is required.
+The firmware is automatically built with CI. Once built, it is uploaded as an
+artifact. No manual building is required.
 
 To flash them connect a compatable keyboard and enter bootloader mode, then drag
 and drop the relevant uf2 files.
