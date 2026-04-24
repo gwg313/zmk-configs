@@ -193,6 +193,7 @@
         COMBO(dot, &kp DOT, 9 10, NUM_L)
 
         COMBO(select_all, &kp LC(A), 19 20, NAV_L)
+        COMBO(bt_clear_all, &bt BT_CLR_ALL, 0 1 6 7, DEF_L)
 
 
     };
